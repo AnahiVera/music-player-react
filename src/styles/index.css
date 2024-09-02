@@ -1,12 +1,61 @@
+.reproductor {
+    background-color: #ffe4e1; 
+    border-radius: 15px;
+    padding: 20px;
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 50px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Cursive', sans-serif;
+    text-align: center;
+}
 
-/* 
+.reproductor-canciones ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+.reproductor-canciones li {
+    margin: 10px 0;
+}
 
-*/
+.reproductor-canciones button {
+    background-color: #ff69b4; 
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.reproductor-canciones button:hover {
+    background-color: #ff1493; 
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+.controls button {
+    background-color: #ff69b4;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50%;
+    margin: 0 10px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.controls button:hover {
+    transform: scale(1.2); 
+    background-color: #ff1493; 
+}
+
+.controls i {
+    pointer-events: none;
+}
