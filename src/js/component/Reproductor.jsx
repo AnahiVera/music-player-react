@@ -96,8 +96,25 @@ const Reproductor = () => {
                             ))}
                         </ul>
                     </div>
-
                 </div>
+                <div className='row'>
+                    <div className='col-12'>
+                        <div className='timeline-slider w-75'>
+                            <div className='timeline'>
+                                <small className='time'>0:00</small>
+                                <small className='fulltime'>2:55</small>
+                            </div>
+
+                            <div className='range-slider'>
+                                <input type="range" min="0" max="100" defaultValue="0" className="slider" />
+                                <div className='slider-thumb'> </div>
+                                <div className='progression'> </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div className="controls row">
                     <div className='col-4'>
                         botones de volumen
@@ -108,7 +125,13 @@ const Reproductor = () => {
                         <button onClick={handleNext}> <i className="fa-solid fa-forward"></i></button>
                     </div>
                     <div className='col-3'>
-                        botones de volumen
+                        <div className='volume-slider'>
+                            <div className='volume-icon'>
+                                <span className='fa-solid fa-volume-high'> </span>
+                                <input type="range" min="0" max="100" defaultValue="70" className='slider' />
+                            </div>
+                        </div>
+                        
                     </div>
 
 

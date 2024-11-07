@@ -11,15 +11,35 @@ body {
     z-index: -1;
 }
 
+.timeline-slider{
+    background-color: #a0145a;
+    margin: 1em auto;
+}
+
+.timeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.range-slider {
+    position: relative;
+    display: flex;
+    user-select: none;
+}
+
+.slider {
+    width: 100%;
+    
+}
+
 .reproductor {
     position: relative; 
-    border-radius: 15px;
     padding: 20px;
     width: 300px;
     margin: 0 auto;
-    margin-top: 50px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Cursive', sans-serif;
+    margin-top: 20px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
 }
 
