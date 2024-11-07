@@ -9,17 +9,18 @@ const Reproductor = () => {
 
     const [currentSongIndex, setCurrentSongIndex] = useState(0); //tracks song selected
     const [isPlaying, setIsPlaying] = useState(false); //tracks if song play or pause 
-    const [volume, setVolume] = useState(1)
+    const [volume, setVolume] = useState(0.7)
+    const [repeat, setRepeat] = useState(false)
+    const [currentTime, setCurrentTime] = useState(0)
+    const [duration, setDuration] = useState(0)
     const audioRef = useRef();  //<audio>
 
     const baseUrl = "https://playground.4geeks.com";
 
-    const increaseVolume = () => {
-        setVolume(prevVolume => Math.min(1, prevVolume + 0.1))
-    }
-
-    const decreaseVolume = () => {
-        setVolume(prevVolume => Math.max(0, prevVolume - 0.1))
+    const handleVolume = (e) => {
+        const newVolume = e.target.value /100;
+        setVolume(newVolume)
+        audioRef.current.volume = newVolume;
     }
 
     const loadSong = (index) => {
@@ -31,6 +32,23 @@ const Reproductor = () => {
             audioRef.current.play();
         }
     }
+
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
+
+    const handleTimeUpdate = () => {
+        setCurrentTime(audioRef.current.currentTime);
+    }
+
+    const handleSeek = (e) => {
+        const seekTime = (e.target.value / 100) * duration; // Calcula el nuevo tiempo
+        audioRef.current.currentTime = seekTime; // Asigna el tiempo al audio
+        setCurrentTime(seekTime); // Actualiza el estado del tiempo actual
+        
+    };
 
     const handlePlayPause = () => {
         if (isPlaying) {
@@ -66,9 +84,15 @@ const Reproductor = () => {
 
         if (audioRef.current) audioRef.current.volume = volume;
 
+        const audio = audioRef.current;
+        audio.addEventListener('timeupdate', handleTimeUpdate); // Actualiza el tiempo de reproducción
+        audio.addEventListener('loadedmetadata', () => setDuration(audio.duration)); // Configura la duración
+
+        // Limpia los eventos al desmontar el componente
+        return () => {
+            audio.removeEventListener('timeupdate', handleTimeUpdate);
+        };
     }, [soundtrack, volume]);
-
-
 
 
 
@@ -101,14 +125,16 @@ const Reproductor = () => {
                     <div className='col-12'>
                         <div className='timeline-slider w-75'>
                             <div className='timeline'>
-                                <small className='time'>0:00</small>
-                                <small className='fulltime'>2:55</small>
+                            <small className='time'>{formatTime(currentTime)}</small>
+                            <small className='fulltime'>{formatTime(duration)}</small>
                             </div>
 
                             <div className='range-slider'>
-                                <input type="range" min="0" max="100" defaultValue="0" className="slider" />
-                                <div className='slider-thumb'> </div>
-                                <div className='progression'> </div>
+                                <input type="range" min="0" max="100"  
+                                value={(currentTime / duration) * 100 || 0}  
+                                onChange={handleSeek} 
+                                className="slider" />
+                                
                             </div>
                         </div>
 
@@ -117,7 +143,8 @@ const Reproductor = () => {
 
                 <div className="controls row">
                     <div className='col-4'>
-                        botones de volumen
+                        shuffle
+                        on repeat
                     </div>
                     <div className='col-4'>
                         <button onClick={handlePrevious}> <i className="fa-solid fa-backward"></i></button>
@@ -128,10 +155,9 @@ const Reproductor = () => {
                         <div className='volume-slider'>
                             <div className='volume-icon'>
                                 <span className='fa-solid fa-volume-high'> </span>
-                                <input type="range" min="0" max="100" defaultValue="70" className='slider' />
+                                <input type="range" min="0" max="100" defaultValue="70" className='slider w-75' onChange={handleVolume} />
                             </div>
                         </div>
-                        
                     </div>
 
 
