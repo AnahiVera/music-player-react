@@ -9,9 +9,18 @@ const Reproductor = () => {
 
     const [currentSongIndex, setCurrentSongIndex] = useState(0); //tracks song selected
     const [isPlaying, setIsPlaying] = useState(false); //tracks if song play or pause 
+    const [volume, setVolume] = useState(1)
     const audioRef = useRef();  //<audio>
 
     const baseUrl = "https://playground.4geeks.com";
+
+    const increaseVolume = () => {
+        setVolume(prevVolume => Math.min(1, prevVolume + 0.1))
+    }
+
+    const decreaseVolume = () => {
+        setVolume(prevVolume => Math.max(0, prevVolume - 0.1))
+    }
 
     const loadSong = (index) => {
         if (soundtrack && soundtrack[index]) {
@@ -54,7 +63,10 @@ const Reproductor = () => {
         if (soundtrack && soundtrack.length > 0) {
             loadSong();
         }
-    }, [soundtrack]);
+
+        if (audioRef.current) audioRef.current.volume = volume;
+
+    }, [soundtrack, volume]);
 
 
 
@@ -86,11 +98,20 @@ const Reproductor = () => {
                     </div>
 
                 </div>
-                <div className="controls">
+                <div className="controls row">
+                    <div className='col-4'>
+                        botones de volumen
+                    </div>
+                    <div className='col-4'>
+                        <button onClick={handlePrevious}> <i className="fa-solid fa-backward"></i></button>
+                        <button onClick={handlePlayPause}> {isPlaying ? <i className="fa-solid fa-pause"></i> : <i className="fa-solid fa-play"></i>}</button>
+                        <button onClick={handleNext}> <i className="fa-solid fa-forward"></i></button>
+                    </div>
+                    <div className='col-3'>
+                        botones de volumen
+                    </div>
 
-                    <button onClick={handlePrevious}> <i class="fa-solid fa-backward"></i></button>
-                    <button onClick={handlePlayPause}> {isPlaying ? <i class="fa-solid fa-pause"></i> : <i class="fa-solid fa-play"></i>}</button>
-                    <button onClick={handleNext}> <i class="fa-solid fa-forward"></i></button>
+
 
                 </div>
             </div>
