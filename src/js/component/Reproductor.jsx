@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import ObtenerApi from './ObtenerApi';
+import retro from '../../img/retro-gaming.jpg'
 
 
 const Reproductor = () => {
@@ -51,7 +52,7 @@ const Reproductor = () => {
 
     useEffect(() => {
         if (soundtrack && soundtrack.length > 0) {
-            loadSong(0);
+            loadSong();
         }
     }, [soundtrack]);
 
@@ -60,34 +61,38 @@ const Reproductor = () => {
 
 
     return (
-        <div className="reproductor">
-            <div className="reproductor-canciones">
-                <audio ref={audioRef} />
+        <div className='container-fluid m-0 p-0'>
+            <img src={retro} alt="retro-gaming-wallpaper" className='bg-img ' />
 
-                <div className='listado-canciones'>
-                    {error && <p>Error: {error}</p>}
-                    <ul>
-                        {soundtrack && soundtrack.map((cancion, index) => (
-                            <li key={cancion.id}>
-                                <button onClick={() => {
-                                    loadSong(index);
-                                    setIsPlaying(true);
-                                }}>
-                                    
-                                    {cancion.name}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
+            <div className="reproductor  w-100">
+                <div className="reproductor-canciones">
+                    <audio ref={audioRef} />
+
+                    <div className='listado-canciones'>
+                        {error && <p>Error: {error}</p>}
+                        <ul className='row'>
+                            {soundtrack && soundtrack.map((cancion, index) => (
+                                <li key={cancion.id} className='col-6 col-md-3 col-xl-2'>
+                                    <button onClick={() => {
+                                        loadSong(index);
+                                        setIsPlaying(true);
+                                    }}>
+
+                                        {cancion.name}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
                 </div>
+                <div className="controls">
 
-            </div>
-            <div className="controls">
+                    <button onClick={handlePrevious}> <i class="fa-solid fa-backward"></i></button>
+                    <button onClick={handlePlayPause}> {isPlaying ? <i class="fa-solid fa-pause"></i> : <i class="fa-solid fa-play"></i>}</button>
+                    <button onClick={handleNext}> <i class="fa-solid fa-forward"></i></button>
 
-                <button onClick={handlePrevious}> <i class="fa-solid fa-backward"></i></button>
-                <button onClick={handlePlayPause}> {isPlaying ? <i class="fa-solid fa-pause"></i> : <i class="fa-solid fa-play"></i>}</button>
-                <button onClick={handleNext}> <i class="fa-solid fa-forward"></i></button>
-
+                </div>
             </div>
         </div>
     )

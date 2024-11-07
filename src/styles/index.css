@@ -1,5 +1,18 @@
+body {
+    margin: none;
+    padding: none;
+}
+.bg-img{
+    height:100vh ;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
 .reproductor {
-    background-color: #ffe4e1; 
+    position: relative; 
     border-radius: 15px;
     padding: 20px;
     width: 300px;
@@ -20,19 +33,24 @@
 }
 
 .reproductor-canciones button {
-    background-color: #ff69b4; 
+    background-color: #a0145a; 
     border: none;
-    color: white;
+    color: rgb(10, 223, 205);
     padding: 10px;
     border-radius: 10px;
     width: 100%;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
+    border-style: solid;
+    border-color:  #a0145a; 
 }
 
 .reproductor-canciones button:hover {
-    background-color: #ff1493; 
+    background-color: #ff2599;
+    border-style: solid;
+    border-color: rgb(52, 197, 190); 
+    box-shadow: 0px 0px 15px rgb(52, 197, 190);  
 }
 
 .controls {
@@ -40,9 +58,9 @@
 }
 
 .controls button {
-    background-color: #ff69b4;
+    background-color: #a0145a;
     border: none;
-    color: white;
+    color: rgb(10, 223, 205);
     padding: 10px 20px;
     border-radius: 50%;
     margin: 0 10px;
@@ -53,9 +71,10 @@
 
 .controls button:hover {
     transform: scale(1.2); 
-    background-color: #ff1493; 
+    background-color: #b3005f; 
 }
 
 .controls i {
     pointer-events: none;
 }
+
