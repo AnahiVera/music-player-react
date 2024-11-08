@@ -11,6 +11,7 @@ const Reproductor = () => {
     const [isPlaying, setIsPlaying] = useState(false); //tracks if song play or pause 
     const [volume, setVolume] = useState(0.7)
     const [repeat, setRepeat] = useState(false)
+    const [isShuffle, setIsShuffle] = useState(false);
     const [currentTime, setCurrentTime] = useState(0)
     const [duration, setDuration] = useState(0)
     const audioRef = useRef();  //<audio>
@@ -18,7 +19,7 @@ const Reproductor = () => {
     const baseUrl = "https://playground.4geeks.com";
 
     const handleVolume = (e) => {
-        const newVolume = e.target.value /100;
+        const newVolume = e.target.value / 100;
         setVolume(newVolume)
         audioRef.current.volume = newVolume;
     }
@@ -44,10 +45,9 @@ const Reproductor = () => {
     }
 
     const handleSeek = (e) => {
-        const seekTime = (e.target.value / 100) * duration; // Calcula el nuevo tiempo
-        audioRef.current.currentTime = seekTime; // Asigna el tiempo al audio
-        setCurrentTime(seekTime); // Actualiza el estado del tiempo actual
-        
+        const seekTime = (e.target.value / 100) * audioRef.current.duration;
+        audioRef.current.currentTime = seekTime;
+        setCurrentTime(seekTime)
     };
 
     const handlePlayPause = () => {
@@ -60,10 +60,18 @@ const Reproductor = () => {
     }
 
     const handleNext = () => {
-        let nextSong = currentSongIndex + 1;
-        if (nextSong >= soundtrack.length) {  //superadn numero de pistas reinicia a 0
-            nextSong = 0
-        };
+        let nextSong  = currentSongIndex + 1;
+        if (isShuffle) {
+            nextSong = Math.floor(Math.random() * soundtrack.length)  
+            
+
+        } else {
+            let nextSong = currentSongIndex + 1;
+            if (nextSong >= soundtrack.length) {  //superadn numero de pistas reinicia a 0
+                nextSong = 0
+               
+            };
+        }
         loadSong(nextSong);
     }
 
@@ -82,17 +90,20 @@ const Reproductor = () => {
             loadSong();
         }
 
-        if (audioRef.current) audioRef.current.volume = volume;
+        if (audioRef.current) {
+            audioRef.current.volume = volume;
+            audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
+            audioRef.current.addEventListener('loadedmetadata', () => setDuration(audioRef.current.duration)); // Agrega el evento de actualización de tiempo
 
-        const audio = audioRef.current;
-        audio.addEventListener('timeupdate', handleTimeUpdate); // Actualiza el tiempo de reproducción
-        audio.addEventListener('loadedmetadata', () => setDuration(audio.duration)); // Configura la duración
+        }
 
-        // Limpia los eventos al desmontar el componente
         return () => {
-            audio.removeEventListener('timeupdate', handleTimeUpdate);
+            if (audioRef.current) {
+                audioRef.current.removeEventListener('timeupdate', handleTimeUpdate);
+                audioRef.current.removeEventListener('loadedmetadata', handleTimeUpdate); // Limpia el evento al desmontar
+            }
         };
-    }, [soundtrack, volume]);
+    }, [soundtrack, volume,]);
 
 
 
@@ -125,16 +136,16 @@ const Reproductor = () => {
                     <div className='col-12'>
                         <div className='timeline-slider w-75'>
                             <div className='timeline'>
-                            <small className='time'>{formatTime(currentTime)}</small>
-                            <small className='fulltime'>{formatTime(duration)}</small>
+                                <small className='time'>{formatTime(currentTime)}</small>
+                                <small className='fulltime'>{formatTime(duration)}</small>
                             </div>
 
                             <div className='range-slider'>
-                                <input type="range" min="0" max="100"  
-                                value={(currentTime / duration) * 100 || 0}  
-                                onChange={handleSeek} 
-                                className="slider" />
-                                
+                                <input type="range" min="0" max="100"
+                                    value={(currentTime / duration) * 100 || 0}
+                                    onChange={handleSeek}
+                                    className="slider" />
+
                             </div>
                         </div>
 
@@ -143,8 +154,9 @@ const Reproductor = () => {
 
                 <div className="controls row">
                     <div className='col-4'>
-                        shuffle
-                        on repeat
+                        <button onClick={() => setIsShuffle(!isShuffle)}>
+                            <i className={`fa-solid ${isShuffle ? 'fa-random' : 'fa-arrows-alt-h'}`}></i>
+                        </button>
                     </div>
                     <div className='col-4'>
                         <button onClick={handlePrevious}> <i className="fa-solid fa-backward"></i></button>
