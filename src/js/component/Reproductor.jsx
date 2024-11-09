@@ -72,7 +72,8 @@ const Reproductor = () => {
                
             };
         }
-        loadSong(nextSong);
+        loadSong(nextSong)
+        setIsPlaying(true)
     }
 
     const handlePrevious = () => {
@@ -80,7 +81,8 @@ const Reproductor = () => {
         if (previousSong <= 0) {
             previousSong = soundtrack.length - 1;
         }
-        loadSong(previousSong);
+        loadSong(previousSong)
+        setIsPlaying(true);
 
     }
 
