@@ -79,6 +79,9 @@ body {
     margin: 10px 0;
 }
 
+h5 {
+    color: rgb(10, 223, 205) ;
+}
 .reproductor-canciones button {
     background-color: #a0145a; 
     color: rgb(10, 223, 205);

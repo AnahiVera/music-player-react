@@ -11,6 +11,7 @@ const Reproductor = () => {
     const [isPlaying, setIsPlaying] = useState(false); //tracks if song play or pause 
     const [volume, setVolume] = useState(0.7)
     const [repeat, setRepeat] = useState(false)
+    const [currentSong, setCurrentSong] = useState(null)
     const [isShuffle, setIsShuffle] = useState(false);
     const [currentTime, setCurrentTime] = useState(0)
     const [duration, setDuration] = useState(0)
@@ -26,8 +27,10 @@ const Reproductor = () => {
 
     const loadSong = (index) => {
         if (soundtrack && soundtrack[index]) {
+            const song = soundtrack[index];
             const songUrl = baseUrl + soundtrack[index].url;
             audioRef.current.src = songUrl;
+            setCurrentSong(song)
             setCurrentSongIndex(index) //not 0 or will restart always
             setIsPlaying(false);
             audioRef.current.play();
@@ -126,7 +129,6 @@ const Reproductor = () => {
                                         loadSong(index);
                                         setIsPlaying(true);
                                     }}>
-
                                         {cancion.name}
                                     </button>
                                 </li>
@@ -139,6 +141,7 @@ const Reproductor = () => {
                         <div className='timeline-slider w-75'>
                             <div className='timeline'>
                                 <small className='time'>{formatTime(currentTime)}</small>
+                                <h5 className=''>Now Playing: {currentSong ? currentSong.name : "Select a song"}</h5>
                                 <small className='fulltime'>{formatTime(duration)}</small>
                             </div>
 
