@@ -3,7 +3,7 @@
 
 ## Characteristics and functionalities
 
-The Music Player project is a React application designed to deliver an intuitive and engaging audio experience. It features a list of songs fetched from an API, allowing users to play, pause, and navigate between tracks. Upon loading the page, the player starts playing the first song by default. Additional functionalities include a volume control slider, a shuffle mode for random playback, and a timeline slider to track progress and seek specific parts of a song. Styled with a neon gamming aesthetic, the music player blends functionality with a fun design for a modern and user-friendly interface.
+The Music Player project is a React application that delivers an intuitive and engaging audio experience. It features a list of songs fetched from an API, allowing users to play, pause, and navigate between tracks. Upon loading the page, the player starts playing the first song by default. Additional functionalities include a volume control slider, a shuffle mode for random playback, and a timeline slider to track progress and seek specific song parts. Styled with a neon gaming aesthetic, the music player blends functionality with a fun design for a modern and user-friendly interface.
 
 
 ## Technologies
